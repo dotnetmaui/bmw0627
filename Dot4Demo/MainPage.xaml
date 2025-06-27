@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Dot4Demo.MainPage" Shell.NavBarIsVisible="False">
+    <VerticalStackLayout Padding="30" Spacing="20">
+        <Label Text="이미지 경로 입력" FontAttributes="Bold"/>
+        <Entry x:Name="ImagePathEntry" Text="https://img.freepik.com/premium-vector/black-cow-with-happy-face-big-smile-face_896360-23963.jpg?w=360"/>
+        <HorizontalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="Start">
+            <Label Text="테스트 모드 " VerticalOptions="Center"/>
+            <Switch x:Name="ModeSwitch" IsToggled="True" OnColor="#E6E4F6" ThumbColor="#EA4B71"/>
+        </HorizontalStackLayout>
+        <Button x:Name="GenerateButton" Text="생성하기" Clicked="OnGenerateClicked"/>
+        <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False"/>
+        <Image x:Name="ResultImage" HeightRequest="300" Aspect="AspectFit"/>
+    </VerticalStackLayout>
+</ContentPage>

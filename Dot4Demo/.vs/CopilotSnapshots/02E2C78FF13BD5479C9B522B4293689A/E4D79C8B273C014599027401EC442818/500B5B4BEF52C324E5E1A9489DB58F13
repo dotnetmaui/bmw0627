@@ -1,0 +1,76 @@
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+
+namespace Dot4Demo
+{
+    public partial class MainPage : ContentPage
+    {
+        int count = 0;
+        private readonly HttpClient _httpClient = new();
+
+#if DEBUG
+        private const string N8N_URL = "https://jojangwon.app.n8n.cloud/webhook-test/getimage";
+#else
+        private const string N8N_URL = "https://jojangwon.app.n8n.cloud/webhook/getimage";
+#endif
+
+        public MainPage()
+        {
+            InitializeComponent();
+        }
+
+        private void OnCounterClicked(object? sender, EventArgs e)
+        {
+            count++;
+
+            if (count == 1)
+                CounterBtn.Text = $"Clicked {count} time";
+            else
+                CounterBtn.Text = $"Clicked {count} times";
+
+            SemanticScreenReader.Announce(CounterBtn.Text);
+        }
+
+        private async void OnGenerateClicked(object sender, EventArgs e)
+        {
+            string imagePath = ImagePathEntry.Text?.Trim();
+            if (string.IsNullOrEmpty(imagePath))
+            {
+                await DisplayAlert("오류", "이미지 경로를 입력하세요.", "확인");
+                return;
+            }
+
+            LoadingIndicator.IsVisible = true;
+            LoadingIndicator.IsRunning = true;
+            ResultImage.IsVisible = false;
+
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Post, N8N_URL);
+                request.Headers.Add("apikey", "dot4");
+                request.Content = new StringContent($"{{\"body\":{{\"imgPath\":\"{imagePath}\"}}}}", System.Text.Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    var imageBytes = await response.Content.ReadAsByteArrayAsync();
+                    ResultImage.Source = ImageSource.FromStream(() => new MemoryStream(imageBytes));
+                    ResultImage.IsVisible = true;
+                }
+                else
+                {
+                    await DisplayAlert("에러", $"이미지 생성 실패: {response.StatusCode}", "확인");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("에러", ex.Message, "확인");
+            }
+            finally
+            {
+                LoadingIndicator.IsVisible = false;
+                LoadingIndicator.IsRunning = false;
+            }
+        }
+    }
+}

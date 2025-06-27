@@ -1,0 +1,14 @@
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+
+namespace Dot4Demo
+{
+    public partial class MainPage : ContentPage
+    {
+
+        public MainPage()
+        {
+            InitializeComponent();
+        }
+    }
+}
