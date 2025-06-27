@@ -1,0 +1,545 @@
+{
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        3360,
+        -180
+      ],
+      "id": "e4e88ba1-71d0-49da-bebf-af188093f825",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "model": "gpt-image-1",
+        "prompt": "A colorful 3D cartoon-style icon of 도끼. Rendered in smooth plastic-like material, with soft shadows and highlights, centered on a transparent background. Stylized and playful like modern app icons",
+        "options": {
+          "quality": "low",
+          "size": "1024x1024"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2040,
+        540
+      ],
+      "id": "0a9fd0e2-7374-40e8-aaad-cc9a5de1d9b4",
+      "name": "Generate an image(GPT Image 1)",
+      "credentials": {
+        "openAiApi": {
+          "id": "DRJTKwF2DmwxiI7G",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "prompt": "A colorful 3D cartoon-style icon of 도끼. Rendered in smooth plastic-like material, with soft shadows and highlights, centered on a dark background. Stylized and playful like modern app icons",
+        "options": {
+          "size": "1024x1024"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2540,
+        540
+      ],
+      "id": "104c053a-5ef8-4727-845a-fd254ddc5df3",
+      "name": "Generate an image(DALL E 3)",
+      "credentials": {
+        "openAiApi": {
+          "id": "DRJTKwF2DmwxiI7G",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d4988aa9-cbd6-4a8c-be2a-afbff3004b38",
+              "name": "object_name",
+              "value": "사과",
+              "type": "string"
+            },
+            {
+              "id": "4c55cedb-b3ef-4be0-ad5a-d6da4ef6feb2",
+              "name": "bg_desc",
+              "value": "검정색",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3440,
+        540
+      ],
+      "id": "ac46a7c8-9901-4cb2-8549-dfc40aed4821",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "model": "gpt-image-1",
+        "prompt": "=A colorful 3D cartoon-style icon of {{ $json.object_name }}. Rendered in smooth plastic-like material, with soft shadows and highlights, centered on a {{$json.bg_desc}} background. Stylized and playful like modern app icons",
+        "options": {
+          "quality": "low",
+          "size": "1024x1024"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        3640,
+        540
+      ],
+      "id": "10fb2562-d453-40bd-ab35-42324c5c53d7",
+      "name": "Generate an image(GPT Image 1_파라미터입력형)",
+      "credentials": {
+        "openAiApi": {
+          "id": "DRJTKwF2DmwxiI7G",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "\nYou will analyze an image and provide detailed structured information for recreating it with identical composition and layout. Follow the EXACT format below for proper parsing.\n\n<image>\n{$IMAGE}\n</image>\n\n**FORMATTING REQUIREMENTS:**\n- Each category separated by exactly TWO newlines (\\n\\n)\n- Use these exact labels: \"Main object:\", \"Object characteristics:\", \"Pose/position:\", \"Style:\", \"Background:\"\n- One space after each colon\n- No additional text before or after\n\n**ANALYSIS REQUIREMENTS:**\n- Preserve exact shape, proportions, colors, and layout from source\n- Include detailed positioning, orientation, and spatial relationships\n- Describe colors, textures, and visual details precisely\n- Note composition elements like viewing angle, framing\n- If no background exists, write \"transparent\"\n\nMain object: [Primary subject/character]\n\nObject characteristics: [Detailed colors, textures, facial features, clothing, accessories, distinctive markings - be very specific]\n\nPose/position: [Exact positioning, body orientation, limb placement, viewing angle, spatial arrangement]\n\nStyle: [Art style, rendering technique, visual approach]\n\nBackground: [Background description or \"transparent\" if none]\n\n**Example:**\n\nMain object: polar bear\n\nObject characteristics: pure white fur, black oval nose, small black dot eyes, pink inner ears, rounded body shape, simplified cartoon features\n\nPose/position: standing upright facing forward, arms at sides, centered in frame, front-facing view\n\nStyle: clean 3D cartoon style with soft shading and smooth surfaces\n\nBackground: solid bright blue color filling entire frame\n",
+        "imageUrls": "https://img.freepik.com/premium-vector/black-cow-with-happy-face-big-smile-face_896360-23963.jpg?w=360",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        4500,
+        540
+      ],
+      "id": "7cf089d8-9e07-4dca-a42c-9c99859602c3",
+      "name": "Analyze image",
+      "credentials": {
+        "openAiApi": {
+          "id": "DRJTKwF2DmwxiI7G",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the content from the previous node\nconst content = $input.first().json.content;\n\n// Split the content by double newlines to get each section\nconst sections = content.split('\\n\\n');\n\n// Initialize result object\nconst result = {};\n\n// Parse each section\nsections.forEach(section => {\n  const lines = section.split('\\n');\n  const key = lines[0].split(':')[0].trim().toLowerCase().replace(/\\s+/g, '_');\n  const value = lines[0].split(':').slice(1).join(':').trim();\n  result[key] = value;\n});\n\nreturn [{\n  json: {\n    main_object: result.main_object,\n    object_characteristics: result.object_characteristics,\n    pose_position: result['pose/position'] || result.pose_position,\n    style: result.style,\n    background: result.background\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4780,
+        540
+      ],
+      "id": "18ff384b-f9e8-461d-bd2e-c6425283bc9f",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "model": "gpt-image-1",
+        "prompt": "=A colorful 3D cartoon-style icon of {{ $json.main_object }}. {{ $json.object_characteristics }}, {{ $json.pose_position }}. {{ $json.style }}, rendered in smooth plastic-like material with soft shadows and highlights, centered on a {{ $json.background }} background. Stylized like modern app icons",
+        "options": {
+          "quality": "high",
+          "size": "1024x1024"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        5020,
+        540
+      ],
+      "id": "12ee79d0-071b-4586-b9f1-77817a97f5d7",
+      "name": "Generate an image(GPT Image 1_파라미터입력형)1",
+      "credentials": {
+        "openAiApi": {
+          "id": "DRJTKwF2DmwxiI7G",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "model": "gpt-image-1",
+        "prompt": "=A colorful 3D cartoon-style icon of {{ $json.main_object }}. {{ $json.object_characteristics }}, {{ $json.pose_position }}. {{ $json.style }}, rendered in smooth plastic-like material with soft shadows and highlights, centered on a {{ $json.background }} background. Stylized like modern app icons",
+        "options": {
+          "quality": "high",
+          "size": "1024x1024"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        3200,
+        1260
+      ],
+      "id": "b684af54-3dff-487a-91e0-481ae1ccb069",
+      "name": "Generate an image(GPT Image 1_파라미터입력형)2",
+      "credentials": {
+        "openAiApi": {
+          "id": "DRJTKwF2DmwxiI7G",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "##  이미지 생성\nGPT Image 1과 DALL E 3차이 비교",
+        "height": 540,
+        "width": 1100
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        320
+      ],
+      "id": "4a27950c-d74e-442f-97b8-f297e8b39c7d",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "##  이미지 생성\n파라미터를 받아 수정하는 방법",
+        "height": 540,
+        "width": 1100
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2960,
+        320
+      ],
+      "id": "47a41df6-add4-47ab-a03f-f9b8554ee448",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "##  이미지 분석 후 이미지 생성\n이미지 경로를 통해 이미지를 분석 후 메타데이터를 뽑아 이미지를 생성",
+        "height": 540,
+        "width": 1100,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4160,
+        320
+      ],
+      "id": "9293d95a-afbd-4e5a-b218-e5f7b8d1f28e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "##  이미지 생성\nGPT Image 1과 DALL E 3차이 비교",
+        "height": 700,
+        "width": 2280,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        920
+      ],
+      "id": "aebfdfce-c28e-4d35-9811-3f84d8b47934",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "api key가 다릅니다",
+        "options": {
+          "responseCode": 401
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        3400,
+        1500
+      ],
+      "id": "b52bbc47-efb5-442d-a6d7-949a9e34fc55",
+      "name": "에러 코드 반환"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "\nYou will analyze an image and provide detailed structured information for recreating it with identical composition and layout. Follow the EXACT format below for proper parsing.\n\n<image>\n{$IMAGE}\n</image>\n\n**FORMATTING REQUIREMENTS:**\n- Each category separated by exactly TWO newlines (\\n\\n)\n- Use these exact labels: \"Main object:\", \"Object characteristics:\", \"Pose/position:\", \"Style:\", \"Background:\"\n- One space after each colon\n- No additional text before or after\n\n**ANALYSIS REQUIREMENTS:**\n- Preserve exact shape, proportions, colors, and layout from source\n- Include detailed positioning, orientation, and spatial relationships\n- Describe colors, textures, and visual details precisely\n- Note composition elements like viewing angle, framing\n- If no background exists, write \"transparent\"\n\nMain object: [Primary subject/character]\n\nObject characteristics: [Detailed colors, textures, facial features, clothing, accessories, distinctive markings - be very specific]\n\nPose/position: [Exact positioning, body orientation, limb placement, viewing angle, spatial arrangement]\n\nStyle: [Art style, rendering technique, visual approach]\n\nBackground: [Background description or \"transparent\" if none]\n\n**Example:**\n\nMain object: polar bear\n\nObject characteristics: pure white fur, black oval nose, small black dot eyes, pink inner ears, rounded body shape, simplified cartoon features\n\nPose/position: standing upright facing forward, arms at sides, centered in frame, front-facing view\n\nStyle: clean 3D cartoon style with soft shading and smooth surfaces\n\nBackground: solid bright blue color filling entire frame\n",
+        "imageUrls": "={{ $json.body.imgPath }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2680,
+        1260
+      ],
+      "id": "fed9d00d-59cf-48f2-97bf-f47fc4722d0f",
+      "name": "이미지 분석",
+      "credentials": {
+        "openAiApi": {
+          "id": "DRJTKwF2DmwxiI7G",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the content from the previous node\nconst content = $input.first().json.content;\n\n// Split the content by double newlines to get each section\nconst sections = content.split('\\n\\n');\n\n// Initialize result object\nconst result = {};\n\n// Parse each section\nsections.forEach(section => {\n  const lines = section.split('\\n');\n  const key = lines[0].split(':')[0].trim().toLowerCase().replace(/\\s+/g, '_');\n  const value = lines[0].split(':').slice(1).join(':').trim();\n  result[key] = value;\n});\n\nreturn [{\n  json: {\n    main_object: result.main_object,\n    object_characteristics: result.object_characteristics,\n    pose_position: result['pose/position'] || result.pose_position,\n    style: result.style,\n    background: result.background\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2960,
+        1260
+      ],
+      "id": "f3412c80-26e7-4fd0-9968-9ed1913d536b",
+      "name": "분석 데이터 추출"
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        3420,
+        1260
+      ],
+      "id": "1b4c5fe4-64fc-4e39-89d9-6e58893695f6",
+      "name": "생성 결과 반환"
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.id.split('/',6).last() + \"_\" + $now.toSeconds().round() + '.png'}}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3540,
+        1000
+      ],
+      "id": "7cbafeb4-8898-4438-ab77-6c31791dba7b",
+      "name": "구글 드라이브에 업로드",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wqIfEs1rvHdqohNr",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "645ded56-ada8-4961-894f-54771fb6e06c",
+              "leftValue": "={{ $json.headers.apikey }}",
+              "rightValue": "dot4",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2420,
+        1460
+      ],
+      "id": "71f38681-3cf6-4f5d-b44e-fdb16633656d",
+      "name": "If - 헤더에 API키가 있는지"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "getimage",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        2080,
+        1340
+      ],
+      "id": "728b178b-087a-4b52-9004-7f33c537af2e",
+      "name": "이미지 생성 웹훅",
+      "webhookId": "0a98b4f8-9b06-4c1a-8381-fd1b4842b846"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        []
+      ]
+    },
+    "Generate an image(GPT Image 1)": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Generate an image(GPT Image 1_파라미터입력형)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Generate an image(GPT Image 1_파라미터입력형)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image(GPT Image 1_파라미터입력형)2": {
+      "main": [
+        [
+          {
+            "node": "생성 결과 반환",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "구글 드라이브에 업로드",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "이미지 분석": {
+      "main": [
+        [
+          {
+            "node": "분석 데이터 추출",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "분석 데이터 추출": {
+      "main": [
+        [
+          {
+            "node": "Generate an image(GPT Image 1_파라미터입력형)2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If - 헤더에 API키가 있는지": {
+      "main": [
+        [
+          {
+            "node": "이미지 분석",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "에러 코드 반환",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "이미지 생성 웹훅": {
+      "main": [
+        [
+          {
+            "node": "If - 헤더에 API키가 있는지",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b17778edf882ff0aa9bced7e6a5b12526830356e67559f7cdde3503a770e27b9"
+  }
+}
